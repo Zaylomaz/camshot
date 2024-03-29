@@ -4,7 +4,7 @@ import 'package:camshot/config/image_assets.dart';
 import 'package:camshot/config/app_routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:camshot/pages/signUP_page.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -18,6 +18,9 @@ class _LoginPageState extends State<LoginPage> {
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
 
+  Future<void> navigateToSignUp() async {
+    Navigator.of(context).pushNamed(AppRoutes.signUp); // Убедитесь, что вы добавили маршрут в AppRoutes
+  }
 
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
@@ -55,14 +58,14 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 const Spacer(),
                 AppTextField(
-                  hint: "Username",
+                  hint: "Логин",
                   controllerName: usernameController,
                 ),
                 const SizedBox(
                   height: 15,
                 ),
                 AppTextField(
-                  hint: "Password",
+                  hint: "Пароль",
                   controllerName: emailController,
                 ),
                 const SizedBox(
@@ -75,14 +78,33 @@ class _LoginPageState extends State<LoginPage> {
                         await signIN();
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.amber,
-                        foregroundColor: Colors.black,
+                        backgroundColor: Colors.deepPurple,
+                        foregroundColor: Colors.grey[40],
                       ),
-                      child: const Text("Login")),
+                      child: const Text("Войти")),
+                ),
+                SizedBox(
+                  width: 250,
+                  height: 40,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      await navigateToSignUp();
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        foregroundColor: Colors.white,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(40)),
+                        )),
+                    child: const Text("Зарегистрироваться",
+                        style: TextStyle(
+                            color: Colors.white60,),
+                ),
+                ),
                 ),
                 const Spacer(),
                 const Text(
-                  "Or sign in with",
+                  "Войти с помощью:",
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.w400),
                 ),
@@ -96,8 +118,8 @@ class _LoginPageState extends State<LoginPage> {
                         await signIN();
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.black,
+                          backgroundColor: Colors.black,
+                          foregroundColor: Colors.white,
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(52)),
                           )),
@@ -112,7 +134,10 @@ class _LoginPageState extends State<LoginPage> {
                           const SizedBox(
                             width: 8,
                           ),
-                          const Text(" Login with Google"),
+                          const Text(" Войти при помощи Google",
+                              style: TextStyle(
+                                  color: Colors.white60,
+                                  fontWeight: FontWeight.w400)),
                         ],
                       )),
                 ),

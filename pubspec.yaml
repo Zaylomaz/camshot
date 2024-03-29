@@ -37,21 +37,28 @@ dependencies:
   firebase_messaging:
   firebase_storage:
   camera:
-  path_provider:
-  google_sign_in:
-  google_maps_flutter:
-  location:
-  cometchat_sdk:
+  image_picker_android:
+  image_picker_ios:
   workmanager:
-  image_gallery_saver:
   permission_handler:
+  google_mlkit_face_detection:
   path:
+  google_sign_in:
+  location:
   image_picker:
+  url_launcher:
+  sqflite:
+  camerawesome:
+  dash_kit_uikit:
+  better_open_file:
+  google_maps_flutter:
+  geolocator:
+  fluttertoast:
+  media_store_plus:
   connectivity_plus:
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.6
+  flutter_local_notifications:
+  url_launcher_android:
+  web_socket_channel:
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +85,7 @@ flutter:
     - assets/images/
     - assets/svg/
     - assets/temp/
+    - lib/pages/camera_screen.dart
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

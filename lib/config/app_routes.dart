@@ -1,4 +1,5 @@
 import 'package:camshot/pages/edit_profile.dart';
+import 'package:camshot/pages/files_page.dart';
 import 'package:camshot/pages/home_page.dart';
 import 'package:camshot/pages/login_page.dart';
 import 'package:camshot/pages/main_page.dart';
@@ -7,6 +8,10 @@ import 'package:camshot/pages/start_page.dart';
 import 'package:camshot/pages/camera_screen.dart';
 import 'package:camshot/pages/map.dart';
 import 'package:camshot/pages/chat.dart';
+import 'package:flutter/material.dart';
+import 'package:camshot/pages/awsc_page.dart';
+
+import '../pages/signUP_page.dart';
 
 class AppRoutes {
   static final pages = {
@@ -18,8 +23,10 @@ class AppRoutes {
     startPage: (context) => const Start_Page(),
     camera: (context) => CameraScreen(),
     map: (context) => Map(),
-    chat: (context) => Chat(),
-
+    // chat: (context) => Chat(),
+    files: (context) => FilesPage(),
+    // awCam : (context) => CameraPage(),
+    signUp: (context) => const SignUpPage(),
 
   };
 
@@ -33,4 +40,7 @@ class AppRoutes {
   static const profile = '/profile';
   static const map = '/map';
   static const chat = '/chat';
+  static const files = '/files';
+  static const awCam = '/awCam';
+  static const signUp = '/signUp';
 }

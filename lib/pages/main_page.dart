@@ -1,3 +1,6 @@
+import 'package:camshot/pages/awsc_page.dart';
+import 'package:camshot/pages/camera_screen.dart';
+import 'package:camshot/pages/files_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:camshot/config/image_assets.dart';
@@ -8,23 +11,34 @@ import 'package:camshot/config/app_routes.dart';
 import 'package:camshot/pages/map.dart';
 import 'package:camshot/pages/chat.dart';
 
-
 class MainPage extends StatefulWidget {
   @override
-  State<MainPage> createState() => _MainPageState();
+  _MainPageState createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
   Menus currentIndex = Menus.home;
+  final pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      body: pages[currentIndex.index],
+      body: PageView(
+        controller: pageController,
+        onPageChanged: (index) {
+          setState(() {
+            currentIndex = Menus.values[index];
+          });
+        },
+        children: pages,
+      ),
       bottomNavigationBar: MyButtonNavigation(
         currentIndex: currentIndex,
-        onTap: (value) => setState(() => currentIndex = value),
+        onTap: (value) {
+          pageController.jumpToPage(value.index);
+          setState(() => currentIndex = value);
+        },
       ),
     );
   }
@@ -32,13 +46,13 @@ class _MainPageState extends State<MainPage> {
   final pages = [
     HomePage(),
     const Map(),
-    const Center(child: Text('Add Post')),
-    const Chat(), // replace someClient with your StreamChatClient instance
+    const CameraScreen(),
+    const Spacer(), // replace someClient with your StreamChatClient instance
     const ProfilePage(),
   ];
 }
 
-enum Menus { home, mapPage, add, chat, user, }
+enum Menus { home, mapPage, cam, mail, user, }
 
 class MyButtonNavigation extends StatelessWidget {
   final Menus currentIndex;
@@ -50,19 +64,21 @@ class MyButtonNavigation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 85,
-      margin: const EdgeInsets.all(24),
+      margin: const EdgeInsets.all(20),
       child: Stack(
         children: [
           Positioned(
-            right: 0, left: 0, top: 17,
+            right: 0, left: 0, top:0,
             child: Container(
-              height: 70,
+              height: 80,
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(1),
               decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(25))),
               child: Row(children: [
                 _buildNavItem(Menus.home, AppImages.ic_home),
                 _buildNavItem(Menus.mapPage, AppImages.ic_map),
-                const Spacer(),
-                _buildNavItem(Menus.chat, AppImages.ic_messages),
+                _buildNavItem(Menus.cam, AppImages.ic_add),
+                _buildNavItem(Menus.mail, AppImages.ic_messages),
                 _buildNavItem(Menus.user, AppImages.ic_user),
               ]),
             ),
@@ -72,16 +88,16 @@ class MyButtonNavigation extends StatelessWidget {
             child: GestureDetector(
               onTap: () => Navigator.of(context).pushNamed(AppRoutes.camera),
               child: Container(
-                padding: const EdgeInsets.all(16),
-                width: 64, height: 64,
-                decoration: const BoxDecoration(color: Colors.amber, shape: BoxShape.circle),
-                child: SvgPicture.asset(
-                  AppImages.ic_add,
-                  colorFilter: ColorFilter.mode(currentIndex == Menus.add ? Colors.blue : Colors.black, BlendMode.srcIn),
+                padding: const EdgeInsets.all(20),
+                width: 60, height: 60,
+                // decoration: const BoxDecoration(color: Colors.deepPurple, shape: BoxShape.circle),
+                // child: SvgPicture.asset(
+                //   AppImages.ic_add,
+                //   colorFilter: ColorFilter.mode(currentIndex == Menus.cam ? Colors.blue : Colors.white, BlendMode.srcIn),
                 ),
               ),
             ),
-          )
+          // )
         ],
       ),
     );

@@ -15,4 +15,6 @@ class AppImages {
   //photos
   static const img_temp = '${_temp}temp1.png';
   static const first_page = '${_png}first_page.png';
+
+  static const ic_folder = '${_svg}folder.svg';
 }

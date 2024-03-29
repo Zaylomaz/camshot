@@ -22,25 +22,28 @@ class _MapState extends State<Map> {
   }
 
   void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
+    if (!mounted) return;
 
-    location.onLocationChanged.listen((LocationData currentLocation) {
-      if (mapController != null) {
-        mapController!.animateCamera(CameraUpdate.newCameraPosition(
-            CameraPosition(
-                bearing: 192.8334901395799,
-                target: LatLng(currentLocation.latitude!,
-                    currentLocation.longitude!),
-                tilt: 0,
-                zoom: 17.00)));
-        setState(() {
-          markers.clear();
-          markers.add(Marker(
-            markerId: MarkerId('myLocation'),
-            position: LatLng(currentLocation.latitude!, currentLocation.longitude!),
-          ));
-        });
-      }
+    setState(() {
+      mapController = controller;
+      location.onLocationChanged.listen((LocationData currentLocation) {
+        if (mapController != null) {
+          mapController!.animateCamera(CameraUpdate.newCameraPosition(
+              CameraPosition(
+                  bearing: 192.8334901395799,
+                  target: LatLng(currentLocation.latitude!,
+                      currentLocation.longitude!),
+                  tilt: 0,
+                  zoom: 17.00)));
+          setState(() {
+            markers.clear();
+            markers.add(Marker(
+              markerId: MarkerId('myLocation'),
+              position: LatLng(currentLocation.latitude!, currentLocation.longitude!),
+            ));
+          });
+        }
+      });
     });
   }
 

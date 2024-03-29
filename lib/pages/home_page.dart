@@ -30,15 +30,6 @@ class _HomePageState extends State<HomePage> {
 }
     Future<void> _refresh() async {
       users.clear();
-      await _userList();
       setState(() {});
     }
-  Future<void> _userList() async {
-    final directory = await getApplicationDocumentsDirectory();
-    final images = directory.listSync().where((file) => file.path.endsWith('.jpeg')).toList();
-
-    for (var imageFile in images) {
-      users.add(File(imageFile.path));
-    }
-  }
 }
