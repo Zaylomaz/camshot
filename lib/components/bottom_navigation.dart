@@ -28,11 +28,15 @@ class BottomNavigationItem extends StatelessWidget {
         children: <Widget>[
           SvgPicture.asset(
             icon,
-            color: isSelected ? Colors.blue : Colors.black,
-            width: isCenterItem ? 24 : 45, // изменяем размер для центрального элемента
-            height: isCenterItem ? 24 : 45, // изменяем размер для центрального элемента
+            color: isSelected ? Colors.deepPurple : Colors.black,
+            width: MediaQuery.of(context).size.width * 0.05, // изменяем размер для центрального элемента
           ),
-
+          Text(
+            name.name,
+            style: TextStyle(
+              color: isSelected ? Colors.deepPurple : Colors.black,
+            ),
+          ),
         ],
       ),
     );

@@ -1,8 +1,11 @@
 import 'dart:io';
 import 'package:camera/camera.dart';
+import 'package:camshot/utils/file_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:camshot/utils/ws.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class CameraScreen extends StatefulWidget {
   const CameraScreen({Key? key}) : super(key: key);
@@ -16,13 +19,14 @@ class _CameraScreenState extends State<CameraScreen> {
   List<CameraDescription>? cameras;
   IconData flashIcon = Icons.flash_on;
   IconData focusIcon = Icons.center_focus_weak;
-  final WebSocketService wsService = WebSocketService('ws://95.158.11.210:6666/upload_image');
+  final WebSocketService wsService = WebSocketService(
+      'ws://95.158.11.210:6666/upload_image');
 
   @override
   void initState() {
     super.initState();
     _initCamera();
-    wsService.connect();
+    wsService.sendAllImages();
   }
 
   Future<void> _initCamera() async {
@@ -37,23 +41,62 @@ class _CameraScreenState extends State<CameraScreen> {
       if (!mounted) {
         return;
       }
-      if (!controller!.value.isInitialized) {
-        print('Failed to initialize camera');
-        return;
-      }
       setState(() {});
-    }).catchError((e) {
-      print('Error initializing camera: $e');
     });
   }
 
+  Future<String> takePicture(CameraController cameraController) async {
+    if (!cameraController.value.isInitialized) {
+      throw Exception('Camera controller is not initialized');
+    }
+
+    final isCameraPermissionGranted = await Permission.camera.request().isGranted;
+    if (!isCameraPermissionGranted) {
+      throw Exception('Camera permission is not granted');
+    }
+
+    final isStoragePermissionGranted = await Permission.storage.request().isGranted;
+    if (!isStoragePermissionGranted) {
+      throw Exception('Storage permission is not granted');
+    }
+
+    final XFile tempFile = await cameraController.takePicture();
+    final directory = await getExternalStorageDirectory();
+    if (directory == null) {
+      throw Exception('Could not get external storage directory');
+    }
+
+    final String fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+    final String newPath = path.join(
+      directory.path,
+      'DCIM',
+      'Images_to_send',
+      fileName,
+    );
+
+    final Directory newDirectory = Directory(path.dirname(newPath));
+    if (!await newDirectory.exists()) {
+      await newDirectory.create(recursive: true);
+    }
+
+    await tempFile.saveTo(newPath);
+    return newPath;
+  }
+
+
+
   Future<String> _captureImage() async {
-    final image = await controller!.takePicture();
-    final directory = await getApplicationDocumentsDirectory();
-    final path = '${directory.path}/${DateTime.now()}.jpeg';
-    final imageFile = File(path);
-    await imageFile.writeAsBytes(await image.readAsBytes());
-    return imageFile.path;
+    try {
+      final imagePath = await takePicture(_CameraScreenState().controller!);
+      return imagePath;
+      // Теперь imagePath содержит путь к изображению, которое можно отправить
+      // Вызов wsService.sendAllImages() может произойти здесь, если он принимает imagePath
+      // wsService.sendAllImages(imagePath);
+    } catch (e) {
+      // Обработка ошибок
+      print(e);
+      throw Exception('Error capturing image'); // Example of adding a throw statement
+    }
   }
 
   void _toggleFlash() {
@@ -90,17 +133,12 @@ class _CameraScreenState extends State<CameraScreen> {
     setState(() {
       focusIcon =
       isAutoFocusOn ? Icons.center_focus_strong : Icons.center_focus_weak;
-    });
-  }
+    });}
 
-  @override
-  void dispose() {
-    controller?.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
+
     if (controller == null || !controller!.value.isInitialized) {
       return Container();
     }
@@ -108,17 +146,22 @@ class _CameraScreenState extends State<CameraScreen> {
       onTapDown: (details) {
         if (controller != null && controller!.value.isInitialized) {
           controller!.lockCaptureOrientation();
-          controller!.setFocusPoint(details.localPosition);
         }
       },
+
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: Stack(
           children: [
-            CameraPreview(controller!),
+            Container(
+              height: MediaQuery.of(context).size.height*0.8,
+              width: MediaQuery.of(context).size.width,
+              child: CameraPreview(controller!),), // Replace with CameraPreview(controller) to display camera preview
             Align(
               alignment: Alignment.bottomCenter,
+
               child: Padding(
-                padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.1),
+                padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -128,8 +171,8 @@ class _CameraScreenState extends State<CameraScreen> {
                       child: Icon(flashIcon),
                     ),
                     Container(
-                      height: 90.0,
-                      width: 90.0,
+                      height: MediaQuery.of(context).size.height*0.08,
+                      width: MediaQuery.of(context).size.height*0.08,
                       child: FloatingActionButton(
                         onPressed: () async {
                           await _captureImage().then((value) => wsService.sendAllImages());

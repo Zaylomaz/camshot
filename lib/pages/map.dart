@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -14,6 +15,7 @@ class _MapState extends State<Map> {
   late Location location;
   LatLng currentLocation = LatLng(0, 0); // Default value
   Set<Marker> markers = {}; // New
+  StreamSubscription<LocationData>? _locationSubscription;
 
   @override
   void initState() {
@@ -24,27 +26,32 @@ class _MapState extends State<Map> {
   void _onMapCreated(GoogleMapController controller) {
     if (!mounted) return;
 
-    setState(() {
-      mapController = controller;
-      location.onLocationChanged.listen((LocationData currentLocation) {
-        if (mapController != null) {
-          mapController!.animateCamera(CameraUpdate.newCameraPosition(
-              CameraPosition(
-                  bearing: 192.8334901395799,
-                  target: LatLng(currentLocation.latitude!,
-                      currentLocation.longitude!),
-                  tilt: 0,
-                  zoom: 17.00)));
-          setState(() {
-            markers.clear();
-            markers.add(Marker(
-              markerId: MarkerId('myLocation'),
-              position: LatLng(currentLocation.latitude!, currentLocation.longitude!),
-            ));
-          });
-        }
-      });
+    mapController = controller;
+    _locationSubscription = location.onLocationChanged.listen((LocationData currentLocation) {
+      if (mapController != null && mounted) {
+        mapController!.animateCamera(CameraUpdate.newCameraPosition(
+            CameraPosition(
+                bearing: 192.8334901395799,
+                target: LatLng(currentLocation.latitude!,
+                    currentLocation.longitude!),
+                tilt: 0,
+                zoom: 17.00)));
+        setState(() {
+          markers.clear();
+          markers.add(Marker(
+            markerId: MarkerId('myLocation'),
+            position: LatLng(currentLocation.latitude!, currentLocation.longitude!),
+          ));
+        });
+      }
     });
+  }
+
+  @override
+  void dispose() {
+    _locationSubscription?.cancel();
+    mapController?.dispose();
+    super.dispose();
   }
 
   @override
@@ -63,25 +70,25 @@ class _MapState extends State<Map> {
           Align(
             alignment: Alignment.bottomRight,
             child: Padding(
-                padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.15),
-                child: Padding(
-                padding: EdgeInsets.only(right: 10),
-                child: FloatingActionButton(
-                  onPressed: () {
-                    if (mapController != null) {
-                      mapController!.animateCamera(CameraUpdate.newCameraPosition(
-                          CameraPosition(
-                              bearing: 192.8334901395799,
-                              target: LatLng(currentLocation.latitude!,
-                                  currentLocation.longitude!),
-                              tilt: 0,
-                              zoom: 17.00)));
-                    }
-                  },
-                  child: Icon(Icons.gps_fixed),
-                )
-          ),
-        ),
+              padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.15),
+              child: Padding(
+                  padding: EdgeInsets.only(right: 10),
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      if (mapController != null) {
+                        mapController!.animateCamera(CameraUpdate.newCameraPosition(
+                            CameraPosition(
+                                bearing: 192.8334901395799,
+                                target: LatLng(currentLocation.latitude!,
+                                    currentLocation.longitude!),
+                                tilt: 0,
+                                zoom: 17.00)));
+                      }
+                    },
+                    child: Icon(Icons.gps_fixed),
+                  )
+              ),
+            ),
           )
         ],
       ),

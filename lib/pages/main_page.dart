@@ -68,12 +68,12 @@ class MyButtonNavigation extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
-            right: 0, left: 0, top:0,
+            bottom: MediaQuery.of(context).size.height*0.01,
+            left: 0, right: 0,
             child: Container(
-              height: 80,
+              height: MediaQuery.of(context).size.height*0.05,
               alignment: Alignment.center,
-              padding: const EdgeInsets.all(1),
-              decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(25))),
+              decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(15))),
               child: Row(children: [
                 _buildNavItem(Menus.home, AppImages.ic_home),
                 _buildNavItem(Menus.mapPage, AppImages.ic_map),
@@ -88,8 +88,8 @@ class MyButtonNavigation extends StatelessWidget {
             child: GestureDetector(
               onTap: () => Navigator.of(context).pushNamed(AppRoutes.camera),
               child: Container(
-                padding: const EdgeInsets.all(20),
-                width: 60, height: 60,
+                padding: const EdgeInsets.all(1),
+                width: MediaQuery.of(context).size.width*0.95, height: MediaQuery.of(context).size.height*0.05,
                 // decoration: const BoxDecoration(color: Colors.deepPurple, shape: BoxShape.circle),
                 // child: SvgPicture.asset(
                 //   AppImages.ic_add,

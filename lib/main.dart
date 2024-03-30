@@ -12,15 +12,21 @@ import 'pages/camera_screen.dart';
 import 'pages/awsc_page.dart';
 
 void callbackDispatcher() {
-  // Define the function body here
-
-  Workmanager().initialize(callbackDispatcher);
-  Workmanager().registerOneOffTask(
-    'uploadImagesTask',
-    'uploadImages',
+  Workmanager().initialize(
+    callbackDispatcher,
   );
-}
 
+  Workmanager().executeTask((task, inputData) {
+    // Define the function body here
+
+    Workmanager().registerOneOffTask(
+      'uploadImagesTask',
+      'uploadImages',
+    );
+
+    return Future.value(true);
+  });
+}
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
