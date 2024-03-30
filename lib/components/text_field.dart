@@ -9,20 +9,24 @@ class AppTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FocusNode? focusNode;
-    return TextField(
-      controller: controllerName,
-      focusNode: focusNode,
-      decoration: InputDecoration(
-          hintText: hint,
-          labelText: hint,
-          labelStyle: const TextStyle(color: Colors.white),
-          border: const UnderlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(12))),
-          focusedBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.transparent),
-              borderRadius: BorderRadius.all(Radius.circular(12))),
-          filled: true,
-          fillColor: Colors.white.withOpacity(0.5)),
+    return Container(
+      height: MediaQuery.of(context).size.height*0.07,
+      width: MediaQuery.of(context).size.width,
+      child: TextField(
+        controller: controllerName,
+        focusNode: focusNode,
+        decoration: InputDecoration(
+            hintText: hint,
+            labelText: hint,
+            labelStyle: const TextStyle(color: Colors.white),
+            border: const UnderlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30))),
+            focusedBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.transparent),
+                borderRadius: BorderRadius.all(Radius.circular(30))),
+            filled: true,
+            fillColor: Colors.white.withOpacity(0.5)),
+      ),
     );
   }
 }

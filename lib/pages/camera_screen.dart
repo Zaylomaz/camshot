@@ -150,11 +150,14 @@ class _CameraScreenState extends State<CameraScreen> {
       },
 
       child: Scaffold(
+        appBar: AppBar(
+          title:Text('Отправка изображений')
+    ),
         backgroundColor: Colors.white,
         body: Stack(
           children: [
             Container(
-              height: MediaQuery.of(context).size.height*0.8,
+              height: MediaQuery.of(context).size.height*0.7,
               width: MediaQuery.of(context).size.width,
               child: CameraPreview(controller!),), // Replace with CameraPreview(controller) to display camera preview
             Align(

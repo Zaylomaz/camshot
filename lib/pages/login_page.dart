@@ -6,9 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:camshot/pages/signUP_page.dart';
 
-
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -19,30 +18,25 @@ class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
 
   Future<void> navigateToSignUp() async {
-    Navigator.of(context).pushNamed(AppRoutes.signUp); // Убедитесь, что вы добавили маршрут в AppRoutes
+    Navigator.of(context).pushNamed(AppRoutes.signUp);
   }
 
   Future<UserCredential> signInWithGoogle() async {
-    // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    // Obtain the auth details from the request
     final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-    // Create a new credential
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
-  Future<void> signIN() async {
-    if(signInWithGoogle().then((value) => value.user) != null)
-    {
-      Navigator.of(context).pushNamed(AppRoutes.main);
-    }
-    else{
-      print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Ошибка входа через Google:'
-      );};
 
+  Future<void> signIN() async {
+    if (signInWithGoogle().then((value) => value.user) != null) {
+      Navigator.of(context).pushNamed(AppRoutes.main);
+    } else {
+      print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Ошибка входа через Google:');
+    }
   }
 
   @override
@@ -72,7 +66,8 @@ class _LoginPageState extends State<LoginPage> {
                   height: 24,
                 ),
                 SizedBox(
-                  width: 250,
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.05,
                   child: ElevatedButton(
                       onPressed: () async {
                         await signIN();
@@ -83,9 +78,12 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       child: const Text("Войти")),
                 ),
+                const SizedBox(
+                  height: 15,
+                ),
                 SizedBox(
-                  width: 250,
-                  height: 40,
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.05,
                   child: ElevatedButton(
                     onPressed: () async {
                       await navigateToSignUp();
@@ -94,20 +92,15 @@ class _LoginPageState extends State<LoginPage> {
                         backgroundColor: Colors.blue,
                         foregroundColor: Colors.white,
                         shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(40)),
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
                         )),
                     child: const Text("Зарегистрироваться",
                         style: TextStyle(
-                            color: Colors.white60,),
-                ),
-                ),
+                          color: Colors.white60,
+                        )),
+                  ),
                 ),
                 const Spacer(),
-                const Text(
-                  "Войти с помощью:",
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.w400),
-                ),
                 const SizedBox(
                   height: 10,
                 ),
