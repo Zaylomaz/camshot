@@ -38,7 +38,7 @@ class _FaqPageState extends State<FaqPage> {
                               return Container(
                                 height: 200,
                                 child: WebView(
-                                  initialUrl: Uri.dataFromString(detailSnapshot.data!, mimeType: 'text/html').toString(),
+                                  initialUrl: Uri.dataFromString(detailSnapshot.data!, mimeType: 'html').toString(),
                                   javascriptMode: JavascriptMode.unrestricted,
                                 ),
                               );

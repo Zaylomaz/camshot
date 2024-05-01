@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:camshot/styles/app_text.dart';
 import 'package:path/path.dart' as path;
-import 'package:camshot/styles/app_colors.dart';
 
 class PostItem extends StatelessWidget {
   final File imageFile;

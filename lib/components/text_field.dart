@@ -4,7 +4,7 @@ class AppTextField extends StatelessWidget {
   final String hint;
   final TextEditingController controllerName;
   const AppTextField(
-      {super.key, required this.hint, required this.controllerName});
+      {super.key, required this.hint, required this.controllerName, required TextStyle hintStyle, required String? Function(String?) validator, });
 
   @override
   Widget build(BuildContext context) {

@@ -53,11 +53,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyB70nBEtXGdNF1-pxjqTqltosOqtsO4Zwg',
-    appId: '1:349834512593:android:e136739e05f4e787919df0',
-    messagingSenderId: '349834512593',
-    projectId: 'camshot66',
-    databaseURL: 'https://camshot66-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'camshot66.appspot.com',
+    apiKey: 'AIzaSyByxhkAthtliVwjuQidiT_9_PMuR4z1V68',
+    appId: '1:665548551515:android:1fd54af839acde5017967e',
+    messagingSenderId: '665548551515',
+    projectId: 'camshot-73af0',
+    storageBucket: 'camshot-73af0.appspot.com',
   );
+
 }

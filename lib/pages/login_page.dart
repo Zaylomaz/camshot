@@ -4,7 +4,7 @@ import 'package:camshot/config/image_assets.dart';
 import 'package:camshot/config/app_routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:camshot/pages/signUP_page.dart';
+import 'package:camshot/pages/register_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -23,8 +23,8 @@ class _LoginPageState extends State<LoginPage> {
   final storage = new FlutterSecureStorage();
   final serv = new HttpService('http://dev.adsmap.kr.ua/api/auth/login');
 
-  Future<void> navigateToSignUp() async {
-    Navigator.of(context).pushNamed(AppRoutes.signUp);
+  Future<void> navigateToregister() async {
+    Navigator.of(context).pushNamed(AppRoutes.register);
   }
   Future<void> navigateToMain()  async {
     Navigator.of(context).pushNamed(AppRoutes.main);
@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: MediaQuery.of(context).size.height * 0.05,
                   child: ElevatedButton(
                     onPressed: () async {
-                      await navigateToSignUp();
+                      await navigateToregister();
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,

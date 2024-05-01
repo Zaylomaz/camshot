@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:camshot/config/image_assets.dart';
 
 class UserAvatar extends StatelessWidget {
   final double size;

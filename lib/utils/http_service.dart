@@ -2,11 +2,6 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:path/path.dart';
-import 'package:async/async.dart';
-import 'package:camshot/config/app_routes.dart';
-import 'package:camshot/pages/signUP_page.dart';
 
 class HttpService {
   final String url;

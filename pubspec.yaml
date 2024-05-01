@@ -30,40 +30,45 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_svg: ^2.0.10+1
-  firebase_auth: ^4.19.2
-  firebase_core: ^2.30.0
-  cloud_firestore: ^4.17.0
-  firebase_messaging: ^14.8.2
-  firebase_storage: ^11.7.2
-  camera: ^0.9.8+1
-  image_picker_android: ^0.8.10
-  image_picker_ios: ^0.8.10
-  workmanager: ^0.5.2
+  flutter_svg:
+  firebase_auth:
+  firebase_core:
+  cloud_firestore:
+  firebase_messaging:
+  firebase_storage:
+  camera:
+  image_picker_android:
+  image_picker_ios:
+  workmanager:
   permission_handler: ^11.3.1
   google_mlkit_face_detection: ^0.9.0
   path: ^1.9.0
   google_sign_in: ^6.2.1
-  geolocation_flutter: ^0.0.6
-  location: ^6.0.1
+  geolocation_flutter:
+  location:
   image_picker: ^1.1.0
   url_launcher: ^6.2.6
   sqflite: ^2.3.3
   camerawesome: ^2.0.1
   dash_kit_uikit: ^3.2.1
   better_open_file: ^3.6.5
-  google_maps_flutter: ^2.6.0
-  geolocator: ^11.0.0
+  google_maps_flutter:
+  geolocator:
   fluttertoast: ^8.2.5
   media_store_plus: ^0.1.1
   connectivity_plus: ^6.0.2
   url_launcher_android: ^6.3.1
   web_socket_channel: ^2.4.5
-  flutter_secure_storage: ^4.2.1
-  webview_flutter_android: ^2.10.4
-  webview_flutter: ^3.0.4
-  flutter_inappwebview: ^5.8.0
+  flutter_secure_storage:
+  webview_flutter_android:
+  webview_flutter: 
+  flutter_inappwebview:
+  firebase_crashlytics:
+  file_picker:
   intl:
+  geocoding:
+  google_maps_webservice:
+  provider:
 
 dev_dependencies:
   flutter_test:
@@ -91,6 +96,7 @@ flutter:
     - assets/svg/
     - assets/temp/
     - lib/pages/camera_screen.dart
+    - lib/Presentation Layer/App/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
