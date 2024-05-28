@@ -1,0 +1,193 @@
+{
+  "project_info": {
+    "project_number": "349834512593",
+    "firebase_url": "https://camshot66-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "camshot66",
+    "storage_bucket": "camshot66.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349834512593:android:814ff5a6fa05de45919df0",
+        "android_client_info": {
+          "package_name": "com.camshot666"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "349834512593-1e75flhcv7p2sp134v9nmhuj9oij5g9d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB70nBEtXGdNF1-pxjqTqltosOqtsO4Zwg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "349834512593-1e75flhcv7p2sp134v9nmhuj9oij5g9d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349834512593:android:e136739e05f4e787919df0",
+        "android_client_info": {
+          "package_name": "com.example.camshot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "349834512593-1e75flhcv7p2sp134v9nmhuj9oij5g9d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB70nBEtXGdNF1-pxjqTqltosOqtsO4Zwg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "349834512593-1e75flhcv7p2sp134v9nmhuj9oij5g9d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349834512593:android:5ead3054267e4aa6919df0",
+        "android_client_info": {
+          "package_name": "com.example.camshot666"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "349834512593-1e75flhcv7p2sp134v9nmhuj9oij5g9d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB70nBEtXGdNF1-pxjqTqltosOqtsO4Zwg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "349834512593-1e75flhcv7p2sp134v9nmhuj9oij5g9d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349834512593:android:faa5e83f6bfa49dd919df0",
+        "android_client_info": {
+          "package_name": "com.example.newapp_functions"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "349834512593-3pv1l2r46cnik70213n6v46gtvb6d6t2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.newapp_functions",
+            "certificate_hash": "6f341ee8eba51c78f564dfd9678b791f7ad4e019"
+          }
+        },
+        {
+          "client_id": "349834512593-1e75flhcv7p2sp134v9nmhuj9oij5g9d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB70nBEtXGdNF1-pxjqTqltosOqtsO4Zwg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "349834512593-1e75flhcv7p2sp134v9nmhuj9oij5g9d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349834512593:android:8d85a58295b76880919df0",
+        "android_client_info": {
+          "package_name": "com.newapp_functions"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "349834512593-1e75flhcv7p2sp134v9nmhuj9oij5g9d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB70nBEtXGdNF1-pxjqTqltosOqtsO4Zwg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "349834512593-1e75flhcv7p2sp134v9nmhuj9oij5g9d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349834512593:android:cc8c5fc5d2eca20e919df0",
+        "android_client_info": {
+          "package_name": "com.yeghor.camshot66"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "349834512593-1e75flhcv7p2sp134v9nmhuj9oij5g9d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB70nBEtXGdNF1-pxjqTqltosOqtsO4Zwg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "349834512593-1e75flhcv7p2sp134v9nmhuj9oij5g9d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
