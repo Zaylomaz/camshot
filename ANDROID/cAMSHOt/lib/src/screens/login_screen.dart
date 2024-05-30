@@ -43,7 +43,10 @@ class _LoginPageState extends State<LoginPage> {
       idToken: googleAuth?.idToken,
     );
 
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    await FirebaseAuth.instance.signInWithCredential(credential);
+    var Token = await FirebaseAuth.instance.currentUser!.getIdToken();
+    var token = await servG.firebaseLogin(Token!);
+    navigateToMain();
   }
 
   void signIN({required String email, required String password}) async {
@@ -137,7 +140,9 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: 48,
                   child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        signInWithGoogle();
+                      },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black,
                           foregroundColor: Colors.white,

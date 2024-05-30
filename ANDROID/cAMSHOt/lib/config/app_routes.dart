@@ -17,7 +17,7 @@ class AppRoutes {
     camera: (context) => CameraScreen(),
     registerStepOne: (context) => RegistrationStepOne(),
     registerStepTwo: (context) => RegistrationStepTwo(
-        user: ModalRoute.of(context)!.settings.arguments as UserModel),
+        user: ModalRoute.of(context)!.settings.arguments as User),
     confirmationScreen: (context) => ConfirmationScreen(),
     faqList: (context) => FAQListScreen(),
     main: (context) => MainScreen(),

@@ -14,7 +14,7 @@ class AppRoutes {
     login: (context) => const LoginPage(),
     home: (context) => const HomePage(),
     main: (context) => const MainPage(),
-    editProfile: (context) => ProfilePage(userDataFuture: Future.value(null)),
+    editProfile: (context) => ProfilePageScreen(),
     nearbyPage: (context) => const NearbyPage(),
     startPage: (context) => const Start_Page(),
     camera: (context) => const CameraScreen(), // Use CameraScreen as a class

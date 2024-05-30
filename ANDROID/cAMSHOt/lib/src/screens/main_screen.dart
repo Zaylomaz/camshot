@@ -1,13 +1,10 @@
-import 'package:camshot/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:camshot/src/screens/camera_screen.dart';
-import 'package:camshot/pages/profile_page.dart'; // Corrected import statement
 import 'package:camshot/src/screens/faq_list_screen.dart';
 import 'package:camshot/src/screens/profile_page_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:camshot/src/services/authentication_service.dart';
 import 'package:camshot/src/screens/map_screen.dart';
-import 'package:camshot/src/screens/profile_page_screen.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -19,15 +16,13 @@ class _MainScreenState extends State<MainScreen> {
   final PageController _pageController = PageController();
 
   final List<Widget> _widgetOptions = [
-    MapScreen(),
-    CameraScreen(),
     FAQListScreen(),
+    CameraScreen(),
+    MapScreen(),
   ];
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    _pageController.jumpToPage(index);
   }
 
   void navigatetoProfilePageScreen() {
@@ -43,9 +38,10 @@ class _MainScreenState extends State<MainScreen> {
       appBar: AppBar(automaticallyImplyLeading: false, actions: <Widget>[
         IconButton(
           icon: Icon(Icons.account_circle),
-          onPressed: () {
-            navigatetoProfilePageScreen();
-          },
+          style: ButtonStyle(
+              padding: MaterialStateProperty.all<EdgeInsets>(
+                  const EdgeInsets.all(10.0))),
+          onPressed: navigatetoProfilePageScreen,
         ),
         IconButton(
           icon: Icon(Icons.logout),
@@ -67,20 +63,20 @@ class _MainScreenState extends State<MainScreen> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: 'Map',
+            icon: Icon(Icons.question_answer),
+            label: 'FAQ',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.camera_alt),
             label: 'Camera',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.question_answer),
-            label: 'FAQ',
+            icon: Icon(Icons.map),
+            label: 'Map',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
+        selectedItemColor: Colors.deepPurple,
         onTap: _onItemTapped,
       ),
     );

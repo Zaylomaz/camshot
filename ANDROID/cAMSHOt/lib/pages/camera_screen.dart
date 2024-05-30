@@ -41,14 +41,15 @@ class _CameraScreenState extends State<CameraScreen> {
     var position = await Geolocator.getCurrentPosition();
     request.fields['latitude'] = position.latitude.toString();
     request.fields['longitude'] = position.longitude.toString();
-    request.fields['created_at'] = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+    request.fields['created_at'] =
+        DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
     request.files.add(await http.MultipartFile.fromPath('photo', filePath));
     request.headers.addAll({
       'Authorization': 'Bearer $token',
       'Content-Type': 'application/json; charset=UTF-8',
     });
     var response = await request.send();
-      if (response.statusCode == 201) {
+    if (response.statusCode == 201) {
       Fluttertoast.showToast(
         msg: "Фото загружено.",
         toastLength: Toast.LENGTH_SHORT,
@@ -66,7 +67,8 @@ class _CameraScreenState extends State<CameraScreen> {
 
     if (response.statusCode == 422) {
       showErrorToast(jsonDecode(await response.stream.bytesToString())['data']);
-      print('__________________________________________________________________>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+      print(
+          '__________________________________________________________________>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
       print(jsonDecode(await response.stream.bytesToString()));
     }
   }
@@ -90,7 +92,7 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   Future<void> _initCamera() async {
-    token = await const FlutterSecureStorage().read(key:"authToken");
+    token = await const FlutterSecureStorage().read(key: "authToken");
     print(token);
     cameras = await availableCameras();
     if (cameras == null || cameras!.isEmpty) {
@@ -106,9 +108,8 @@ class _CameraScreenState extends State<CameraScreen> {
     final Directory appDocDir = await getApplicationDocumentsDirectory();
     final String dirPath = '${appDocDir.path}/Pictures';
     await Directory(dirPath).create(recursive: true);
-    final String filePath = '$dirPath/${DateTime
-        .now()
-        .millisecondsSinceEpoch}.jpg';
+    final String filePath =
+        '$dirPath/${DateTime.now().millisecondsSinceEpoch}.jpg';
 
     final XFile picture = await controller!.takePicture();
     await picture.saveTo(filePath);
@@ -124,7 +125,7 @@ class _CameraScreenState extends State<CameraScreen> {
         textColor: Colors.white,
       );
     }
-    }
+  }
 
   @override
   void dispose() {
@@ -142,39 +143,43 @@ class _CameraScreenState extends State<CameraScreen> {
           IconButton(
             icon: const Icon(Icons.person),
             onPressed: () async {
-              await Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ProfilePage(userDataFuture: Future.value({'url': Uri.parse('https://dev.adsmap.kr.ua/api/auth/user')}))),
-              );
+              await Navigator.push(context
+                  // MaterialPageRoute(builder: (context) => ProfilePage(userDataFuture: Future.value({'url': Uri.parse('https://dev.adsmap.kr.ua/api/auth/user')}))),
+                  );
             },
           ),
         ]),
-        body: Stack(
-            children: [
-              Expanded(child: CameraPreview(controller!)),
-              Padding(
-                  padding: MediaQuery.of(context).padding,
-                  child: Container(
-                      alignment: Alignment.bottomCenter,
-                      width: MediaQuery.of(context).size.width,
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            IconButton(
-                                icon: Icon(_flashMode ? Icons.flash_on : Icons.flash_off),
-                                onPressed: () {
-                                  setState(() {
-                                    _flashMode = !_flashMode;
-                                  });
-                                }),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                foregroundColor: Colors.grey[40], backgroundColor: Colors.deepPurple, // use 'onPrimary' instead of 'foregroundColor'
-                              ),
-                              onPressed: _takePictureAndUpload,
-                              child: const Icon(Icons.camera_alt),
+        body: Stack(children: [
+          Expanded(child: CameraPreview(controller!)),
+          Padding(
+              padding: MediaQuery.of(context).padding,
+              child: Container(
+                  alignment: Alignment.bottomCenter,
+                  width: MediaQuery.of(context).size.width,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        IconButton(
+                            icon: Icon(
+                                _flashMode ? Icons.flash_on : Icons.flash_off),
+                            onPressed: () {
+                              setState(() {
+                                _flashMode = !_flashMode;
+                              });
+                            }),
+                        Positioned(
+                          bottom: MediaQuery.of(context).size.height * 0.4,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.grey[40],
+                              backgroundColor: Colors
+                                  .deepPurple, // use 'onPrimary' instead of 'foregroundColor'
                             ),
-                          ])))
-            ]));
+                            onPressed: _takePictureAndUpload,
+                            child: const Icon(Icons.camera_alt),
+                          ),
+                        )
+                      ])))
+        ]));
   }
 }

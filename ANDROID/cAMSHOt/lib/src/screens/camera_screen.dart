@@ -1,18 +1,16 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:camshot/pages/profile_page.dart';
 import 'dart:convert';
 import 'package:camera/camera.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class CameraScreen extends StatefulWidget {
   const CameraScreen({super.key});
@@ -147,44 +145,48 @@ class _CameraScreenState extends State<CameraScreen> {
         body: Stack(children: [
       Container(
           child: CameraPreview(controller!),
-          height: MediaQuery.of(context).size.height * 0.8),
+          height: MediaQuery.of(context).size.height * 0.85),
+      IconButton(
+          icon: Icon(_flashMode ? Icons.flash_on : Icons.flash_off),
+          onPressed: _flashMode
+              ? () {
+                  controller!.setFlashMode(FlashMode.off);
+                  setState(() {
+                    _flashMode = false;
+                  });
+                }
+              : () {
+                  controller!.setFlashMode(FlashMode.torch);
+                  setState(() {
+                    _flashMode = true;
+                  });
+                }),
       Positioned(
-        left: MediaQuery.of(context).size.width *
-            0.01, // Расстояние от левого края
-        top: MediaQuery.of(context).size.height *
-            0.02, // Расстояние от верхнего края
-        child: IconButton(
-            icon: Icon(_flashMode ? Icons.flash_on : Icons.flash_off),
-            onPressed: _flashMode
-                ? () {
-                    controller!.setFlashMode(FlashMode.off);
-                    setState(() {
-                      _flashMode = false;
-                    });
-                  }
-                : () {
-                    controller!.setFlashMode(FlashMode.torch);
-                    setState(() {
-                      _flashMode = true;
-                    });
-                  }),
-      ),
-      Padding(
-          padding: MediaQuery.of(context).padding,
-          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Container(
-              alignment: Alignment.bottomCenter,
-              width: MediaQuery.of(context).size.width,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.deepPurple,
-                ),
-                onPressed: _takePictureAndUpload,
-                child: const Icon(Icons.camera_alt),
-              ),
-            )
-          ]))
+          // Расстояние от левого края
+          top: MediaQuery.of(context).size.height * 0.7,
+          right: MediaQuery.of(context).size.width * 0.35,
+          height: 75,
+          child: Padding(
+              padding: MediaQuery.of(context).padding,
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  height: MediaQuery.of(context).size.height * 0.07,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.deepPurple,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40.0),
+                        side: BorderSide(color: Colors.deepPurple),
+                      ),
+                    ),
+                    onPressed: _takePictureAndUpload,
+                    child: const Icon(Icons.camera_alt, size: 30),
+                  ),
+                )
+              ]))),
     ]));
   }
 // class CameraScreen extends StatefulWidget {

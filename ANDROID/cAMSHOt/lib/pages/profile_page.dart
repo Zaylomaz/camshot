@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:geocoding/geocoding.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:io';
+import 'package:http_parser/http_parser.dart';
+import 'package:image_picker/image_picker.dart';
 
-class ProfilePage extends StatefulWidget {
-  final Future<Map<String, dynamic>> userDataFuture;
-
-  const ProfilePage({super.key, required this.userDataFuture});
+class ProfilePageScreen extends StatefulWidget {
+  const ProfilePageScreen({Key? key}) : super(key: key);
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfilePageState extends State<ProfilePageScreen> {
   final _emailController = TextEditingController();
   final _firstNameController = TextEditingController();
   final _middleNameController = TextEditingController();
@@ -22,6 +23,83 @@ class _ProfilePageState extends State<ProfilePage> {
   final _homeAddressController = TextEditingController();
   final _birthdayController = TextEditingController();
 
+  File? _avatar;
+  File? _passportPhoto;
+
+  Future<Map<String, dynamic>> fetchUserData() async {
+    final response = await http.get(
+      Uri.parse('https://yourapi.com/api/auth/user'),
+      headers: {
+        'Authorization': 'Bearer your_token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to load user data');
+    }
+  }
+
+  Future<void> _pickImage(bool isAvatar) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        if (isAvatar) {
+          _avatar = File(pickedFile.path);
+        } else {
+          _passportPhoto = File(pickedFile.path);
+        }
+      });
+    }
+  }
+
+  Future<void> _saveProfile() async {
+    if (_avatar == null || _passportPhoto == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please select both avatar and passport photo')),
+      );
+      return;
+    }
+
+    final request = http.MultipartRequest(
+      'POST',
+      Uri.parse('https://yourapi.com/api/auth/update_profile'),
+    );
+
+    request.headers['Authorization'] = 'Bearer your_token';
+
+    request.fields['passport_number'] = _passportNumberController.text;
+    request.fields['birthday'] = _birthdayController.text;
+    request.fields['home_address'] = _homeAddressController.text;
+
+    request.files.add(await http.MultipartFile.fromPath(
+      'avatar',
+      _avatar!.path,
+      contentType: MediaType('image', 'jpeg'),
+    ));
+
+    request.files.add(await http.MultipartFile.fromPath(
+      'passport_photo',
+      _passportPhoto!.path,
+      contentType: MediaType('image', 'jpeg'),
+    ));
+
+    final response = await request.send();
+
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Profile updated successfully')),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to update profile')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +107,7 @@ class _ProfilePageState extends State<ProfilePage> {
         title: const Text('Профиль'),
       ),
       body: FutureBuilder<Map<String, dynamic>>(
-        future: widget.userDataFuture,
+        future: fetchUserData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
@@ -55,6 +133,14 @@ class _ProfilePageState extends State<ProfilePage> {
                 _buildTextField('Домашний адрес', _homeAddressController),
                 _buildTextField('Дата рождения', _birthdayController),
                 ElevatedButton(
+                  onPressed: () => _pickImage(true),
+                  child: const Text('Выбрать аватар'),
+                ),
+                ElevatedButton(
+                  onPressed: () => _pickImage(false),
+                  child: const Text('Выбрать фото паспорта'),
+                ),
+                ElevatedButton(
                   onPressed: _saveProfile,
                   child: const Text('Сохранить'),
                 ),
@@ -63,7 +149,7 @@ class _ProfilePageState extends State<ProfilePage> {
           } else if (snapshot.hasError) {
             return const Text('Ошибка загрузки данных');
           }
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );
@@ -83,13 +169,6 @@ class _ProfilePageState extends State<ProfilePage> {
           controller.text = formattedDate;
         }
       },
-      // 'Домашний адрес': () async {
-      //   final result = await Navigator.push(context,
-      //       MaterialPageRoute(builder: (context) => const MapScreen()));
-      //   if (result != null) {
-      //     controller.text = result as String;
-      //   }
-      // },
     };
 
     return TextField(
@@ -100,10 +179,6 @@ class _ProfilePageState extends State<ProfilePage> {
       readOnly: specialBehaviors.containsKey(label),
       onTap: specialBehaviors[label],
     );
-  }
-
-  void _saveProfile() {
-    // Implement your save profile logic here
   }
 
   @override

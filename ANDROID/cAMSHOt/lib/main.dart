@@ -143,7 +143,6 @@ import 'package:provider/provider.dart';
 import 'package:camshot/src/screens/registration_step_one.dart';
 import 'package:camshot/src/screens/map_screen.dart';
 import 'package:camshot/src/screens/profile_page_screen.dart';
-import 'package:camshot/src/screens/registration_step_two.dart';
 
 void main() {
   runApp(
@@ -157,10 +156,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   final FlutterSecureStorage storage = FlutterSecureStorage();
-
-  Future<String?> getToken() async {
-    return await storage.read(key: 'authToken');
-  }
 
   Future<Widget> getHomePage(BuildContext context) async {
     String? token = await storage.read(key: "authToken");

@@ -41,6 +41,21 @@ class HttpService {
     }
   }
 
+  Future<void> firebaseLogin(String token) async {
+    var url = Uri.parse('http://dev.adsmap.kr.ua/api/auth/firebase/login');
+    var response = await http.post(url, body: {
+      'id_token': token,
+    });
+
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      String Token = data['accessToken'] as String;
+      await storage.write(key: "authToken", value: Token);
+    } else {
+      print('Firebase login failed: ${response.body}');
+    }
+  }
+
   Future<String> login(String email, String password) async {
     final response = await http.post(
       Uri.parse(url),

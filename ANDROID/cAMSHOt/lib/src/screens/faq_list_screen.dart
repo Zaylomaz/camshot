@@ -1,14 +1,8 @@
-import 'package:camshot/src/screens/faq_detail_screen.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:camshot/src/models/faq.dart';
 import 'package:camshot/src/services/faq_service.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:camshot/src/services/api_service.dart';
 
 class FAQListScreen extends StatefulWidget {
   @override
@@ -23,7 +17,8 @@ class _FAQListScreenState extends State<FAQListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Инструктаж"),
+        automaticallyImplyLeading: false,
+        title: Text("Инструктаж"),
       ),
       body: StreamBuilder<List<dynamic>>(
         stream: faqService.fetchFaqSections(),
@@ -38,6 +33,7 @@ class _FAQListScreenState extends State<FAQListScreen> {
                     title: Text(section['title']),
                     children: [
                       SizedBox(
+                          height: 200,
                           child: StreamBuilder<String>(
                             stream: faqService
                                 .fetchFaqContent(section['id'])
@@ -68,8 +64,7 @@ class _FAQListScreenState extends State<FAQListScreen> {
                               return const Center(
                                   child: CircularProgressIndicator());
                             },
-                          ),
-                          height: 200)
+                          ))
                     ],
                   );
                 },

@@ -3,7 +3,7 @@ import 'package:camshot/src/models/user.dart';
 import 'package:camshot/src/models/user.dart';
 
 class RegistrationStepTwo extends StatefulWidget {
-  final UserModel user;
+  final User user;
 
   RegistrationStepTwo({required this.user});
 
