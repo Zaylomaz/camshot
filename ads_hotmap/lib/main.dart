@@ -26,7 +26,7 @@ void main() async {
   await Workmanager().registerPeriodicTask(
     "uniqueName",
     "uploadTask",
-    frequency: Duration(minutes: 20),
+    frequency: Duration(minutes: 5),
   );
 
   runApp(

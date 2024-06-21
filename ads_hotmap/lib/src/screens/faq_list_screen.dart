@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:ads_hotmap/src/services/faq_service.dart';
+import 'package:ads_hotmap/src/screens/faq_detail_screen.dart'; // Импортируйте новый экран
 
 class FAQListScreen extends StatefulWidget {
   @override
@@ -31,36 +32,19 @@ class _FAQListScreenState extends State<FAQListScreen> {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   var section = snapshot.data![index];
-                  return ExpansionTile(
+                  return ListTile(
                     title: Text(section['title']),
-                    children: [
-                      StreamBuilder<String>(
-                        stream: faqService
-                            .fetchFaqContent(section['id'])
-                            .asBroadcastStream(),
-                        builder: (context, detailSnapshot) {
-                          if (detailSnapshot.connectionState ==
-                              ConnectionState.done) {
-                            if (detailSnapshot.hasData) {
-                              return SizedBox(
-                                height: 200,
-                                child: WebView(
-                                  initialUrl: Uri.dataFromString(
-                                          detailSnapshot.data!,
-                                          mimeType: 'text/html')
-                                      .toString(),
-                                  javascriptMode: JavascriptMode.unrestricted,
-                                ),
-                              );
-                            } else if (detailSnapshot.hasError) {
-                              return Text("Ошибка: ${detailSnapshot.error}");
-                            }
-                          }
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        },
-                      ),
-                    ],
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FAQDetailScreen(
+                            id: section['id'],
+                            title: section['title'],
+                          ), // Переход на новый экран при нажатии
+                        ),
+                      );
+                    },
                   );
                 },
               );
