@@ -11,6 +11,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:convert';
 import 'package:camera/camera.dart';
+import 'package:vibration/vibration.dart';
 
 class CameraScreen extends StatefulWidget {
   const CameraScreen({super.key});
@@ -26,17 +27,19 @@ class _CameraScreenState extends State<CameraScreen> {
   Geolocator geolocator = Geolocator();
   bool _flashMode = false;
 
+  var positionLatitude;
+
   @override
   void initState() {
     super.initState();
     _initCamera();
   }
 
-  Future<void> _uploadPhoto(String filePath) async {
+  Future<bool> _uploadPhoto(String filePath) async {
     var file = File(filePath);
     if (!await file.exists()) {
       print('File not found: $filePath');
-      return;
+      return false;
     }
     var uri = Uri.parse("https://dev.adsmap.kr.ua/api/v1/reports");
     var request = http.MultipartRequest('POST', uri);
@@ -58,6 +61,8 @@ class _CameraScreenState extends State<CameraScreen> {
         backgroundColor: Colors.green,
         textColor: Colors.white,
       );
+      Vibration.vibrate(duration: 500);
+      return true;
     } else {
       Fluttertoast.showToast(
         msg: "Неизвестная ошибка при отправке отчета.",
@@ -65,6 +70,9 @@ class _CameraScreenState extends State<CameraScreen> {
         backgroundColor: Colors.red,
         textColor: Colors.white,
       );
+      Vibration.vibrate(amplitude: 1, pattern: [150, 150, 150, 150]);
+
+      return false;
     }
 
     if (response.statusCode == 422) {
@@ -107,18 +115,32 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   Future<void> _takePictureAndUpload() async {
+    Vibration.vibrate(duration: 150);
     final Directory appDocDir = await getApplicationDocumentsDirectory();
     final String dirPath = '${appDocDir.path}/Pictures';
+    var position = await Geolocator.getCurrentPosition();
+
     await Directory(dirPath).create(recursive: true);
     final String filePath =
-        '$dirPath/${DateTime.now().millisecondsSinceEpoch}${Geolocator.getCurrentPosition.toString}.jpg';
+        '$dirPath/${DateTime.now().millisecondsSinceEpoch}|${position.latitude.toString()}|${position.longitude.toString()}.jpg';
 
     final XFile picture = await controller!.takePicture();
     await picture.saveTo(filePath);
 
     print('Photo saved: $filePath');
     try {
-      await _uploadPhoto(filePath);
+      var result = await _uploadPhoto(filePath);
+      if (result == true) {
+        await File(filePath).delete();
+      } else {
+        Fluttertoast.showToast(
+          msg: "Ошибка при отправке отчета.",
+          toastLength: Toast.LENGTH_SHORT,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+        );
+        Vibration.vibrate(amplitude: 1, pattern: [150, 150, 150, 150]);
+      }
     } catch (e) {
       Fluttertoast.showToast(
         msg: "Ошибка при отправке отчета.",
@@ -126,6 +148,7 @@ class _CameraScreenState extends State<CameraScreen> {
         backgroundColor: Colors.red,
         textColor: Colors.white,
       );
+      Vibration.vibrate(amplitude: 1, pattern: [150, 150, 150, 150]);
     }
   }
 
@@ -145,7 +168,7 @@ class _CameraScreenState extends State<CameraScreen> {
         body: Stack(children: [
       Container(
           child: CameraPreview(controller!),
-          height: MediaQuery.of(context).size.height * 0.85),
+          height: MediaQuery.of(context).size.height * 0.8),
       IconButton(
           icon: Icon(_flashMode ? Icons.flash_on : Icons.flash_off),
           onPressed: _flashMode

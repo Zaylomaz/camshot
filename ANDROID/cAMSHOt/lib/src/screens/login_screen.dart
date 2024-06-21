@@ -12,26 +12,22 @@ import 'package:camshot/config/image_assets.dart';
 import 'package:camshot/main.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  get storage => FlutterSecureStorage();
+  final storage = FlutterSecureStorage();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final serv = HttpService('http://dev.adsmap.kr.ua/api/auth/login');
   HttpService servG =
       HttpService('http://dev.adsmap.kr.ua/api/auth/firebase/login');
 
-  Future<void> navigateToregister() async {
-    Navigator.of(context).pushNamed(AppRoutes.registerStepOne);
-  }
-
   Future<void> navigateToMain() async {
-    Navigator.of(context).pushNamed(AppRoutes.main);
+    Navigator.of(context).pushReplacementNamed(AppRoutes.main);
   }
 
   signInWithGoogle() async {
@@ -86,12 +82,6 @@ class _LoginPageState extends State<LoginPage> {
                 TextFormField(
                   decoration: const InputDecoration(hintText: "Пароль"),
                   controller: passwordController,
-                  // validator: (value) {
-                  //   if (value!.isEmpty) {
-                  //     return 'Введите пароль';
-                  //   }
-                  //   return null;
-                  // },
                 ),
                 const SizedBox(
                   height: 24,
@@ -114,25 +104,23 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 15,
                 ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.05,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      await navigateToregister();
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                        foregroundColor: Colors.white,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                        )),
-                    child: const Text("Зарегистрироваться",
-                        style: TextStyle(
-                          color: Colors.white,
-                        )),
-                  ),
-                ),
+                // SizedBox(
+                //   width: MediaQuery.of(context).size.width,
+                //   height: MediaQuery.of(context).size.height * 0.05,
+                //   child: ElevatedButton(
+                //     onPressed: () async {},
+                //     style: ElevatedButton.styleFrom(
+                //         backgroundColor: Colors.blue,
+                //         foregroundColor: Colors.white,
+                //         shape: const RoundedRectangleBorder(
+                //           borderRadius: BorderRadius.all(Radius.circular(30)),
+                //         )),
+                //     child: const Text("Зарегистрироваться",
+                //         style: TextStyle(
+                //           color: Colors.white,
+                //         )),
+                //   ),
+                // ),
                 const Spacer(),
                 const SizedBox(
                   height: 10,

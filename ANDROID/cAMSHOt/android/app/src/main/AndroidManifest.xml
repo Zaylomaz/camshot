@@ -67,16 +67,15 @@
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/your_file_paths"></meta-data>
+
         </provider>
+
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyA3bI3paqXlnXVvz5_0eDVd5ZJn4C2vVlc" />
+            android:value="AIzaSyAq283c_rwnc6zXkeheqjyserViHVmddBQ" />
 
     </application>
     <queries>

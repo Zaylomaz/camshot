@@ -74,6 +74,7 @@ dependencies:
   sentry_flutter:
   worker_manager:
   gestures:
+  vibration:
 
 dev_dependencies:
   flutter_test:
@@ -103,7 +104,6 @@ flutter:
     - assets/images/
     - assets/svg/
     - assets/temp/
-    - lib/pages/camera_screen.dart
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

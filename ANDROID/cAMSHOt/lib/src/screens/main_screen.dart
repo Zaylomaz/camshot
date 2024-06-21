@@ -1,7 +1,9 @@
+import 'package:camshot/src/services/background_service.dart';
 import 'package:flutter/material.dart';
 import 'package:camshot/src/screens/camera_screen.dart';
 import 'package:camshot/src/screens/faq_list_screen.dart';
 import 'package:camshot/src/screens/profile_page_screen.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:camshot/src/services/authentication_service.dart';
 import 'package:camshot/src/screens/map_screen.dart';
@@ -37,8 +39,15 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(automaticallyImplyLeading: false, actions: <Widget>[
         IconButton(
-          icon: Icon(Icons.account_circle),
+          icon: Icon(Icons.arrow_upward),
+          onPressed: () {
+            BackgroundService.uploadPendingFiles();
+          },
+        ),
+        IconButton(
+          icon: Icon(Icons.person),
           style: ButtonStyle(
+              iconSize: MaterialStateProperty.all<double>(30),
               padding: MaterialStateProperty.all<EdgeInsets>(
                   const EdgeInsets.all(10.0))),
           onPressed: navigatetoProfilePageScreen,
@@ -48,6 +57,7 @@ class _MainScreenState extends State<MainScreen> {
           onPressed: () {
             Provider.of<AuthenticationService>(context, listen: false).logout();
             Navigator.pushReplacementNamed(context, '/login');
+            GoogleSignIn().signOut();
           },
         ),
       ]),

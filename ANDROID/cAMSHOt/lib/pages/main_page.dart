@@ -1,4 +1,4 @@
-import 'package:camshot/pages/camera_screen.dart';
+// import 'package:camshot/pages/camera_screen.dart';
 import 'package:camshot/pages/faq_page.dart';
 import 'package:flutter/material.dart';
 import 'package:camshot/config/image_assets.dart';
@@ -19,7 +19,7 @@ class _MainPageState extends State<MainPage> {
   final pageController = PageController();
   final pages = [
     const Map(),
-    const CameraScreen(),
+    // const CameraScreen(),
     const FaqPage(),
   ];
   @override

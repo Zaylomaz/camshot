@@ -1,0 +1,23 @@
+//dependencies {
+//    classpath 'com.android.tools.build:gradle:3.5.0'
+//    classpath 'com.google.gms:google-services:4.4.2'
+//}
+rootProject.buildDir = '../build'
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+
+subprojects {
+    project.evaluationDependsOn(':app')
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}

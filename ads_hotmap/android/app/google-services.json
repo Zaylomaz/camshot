@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "530010359092",
+    "firebase_url": "https://adsmasetrapi-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "adsmasetrapi",
+    "storage_bucket": "adsmasetrapi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:530010359092:android:1ad0a72253c1024f9b9161",
+        "android_client_info": {
+          "package_name": "com.rempc.ads_hotmap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "530010359092-hrmlpnetb3kdn87an8k7vjs3o29s5n7p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbJPSZ3ArDxWOjIpGufwNoPJQkdAVcJtU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "103019494525273205295",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

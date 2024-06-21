@@ -3,6 +3,8 @@ import 'package:camshot/src/models/faq.dart';
 import 'package:camshot/src/services/faq_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:camshot/src/services/faq_service.dart';
 
 class FAQListScreen extends StatefulWidget {
   @override
@@ -32,39 +34,32 @@ class _FAQListScreenState extends State<FAQListScreen> {
                   return ExpansionTile(
                     title: Text(section['title']),
                     children: [
-                      SizedBox(
-                          height: 200,
-                          child: StreamBuilder<String>(
-                            stream: faqService
-                                .fetchFaqContent(section['id'])
-                                .asBroadcastStream(),
-                            builder: (context, detailSnapshot) {
-                              if (detailSnapshot.connectionState ==
-                                  ConnectionState.done) {
-                                if (detailSnapshot.hasData) {
-                                  return InAppWebView(
-                                    initialOptions: InAppWebViewGroupOptions(
-                                      android: AndroidInAppWebViewOptions(),
-                                    ),
-                                    initialData: InAppWebViewInitialData(
-                                        data: Uri.dataFromString(
-                                                detailSnapshot.data!,
-                                                mimeType: 'text/html')
-                                            .toString()),
-                                    // gestureRecognizers: {
-                                    //   Factory<VerticalDragGestureRecognizer>(
-                                    //       () => VerticalDragGestureRecognizer())
-                                    // },
-                                  );
-                                } else if (detailSnapshot.hasError) {
-                                  return Text(
-                                      "Ошибка: ${detailSnapshot.error}");
-                                }
-                              }
-                              return const Center(
-                                  child: CircularProgressIndicator());
-                            },
-                          ))
+                      StreamBuilder<String>(
+                        stream: faqService
+                            .fetchFaqContent(section['id'])
+                            .asBroadcastStream(),
+                        builder: (context, detailSnapshot) {
+                          if (detailSnapshot.connectionState ==
+                              ConnectionState.done) {
+                            if (detailSnapshot.hasData) {
+                              return SizedBox(
+                                height: 200,
+                                child: WebView(
+                                  initialUrl: Uri.dataFromString(
+                                          detailSnapshot.data!,
+                                          mimeType: 'text/html')
+                                      .toString(),
+                                  javascriptMode: JavascriptMode.unrestricted,
+                                ),
+                              );
+                            } else if (detailSnapshot.hasError) {
+                              return Text("Ошибка: ${detailSnapshot.error}");
+                            }
+                          }
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        },
+                      ),
                     ],
                   );
                 },

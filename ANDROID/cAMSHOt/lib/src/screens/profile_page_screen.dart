@@ -26,6 +26,7 @@ class ProfilePageScreen extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePageScreen> {
   static const storage = FlutterSecureStorage();
   File? passportPhotoImage;
+  File? avatarPhotoImage;
   TextEditingController emailController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController middleNameController = TextEditingController();
@@ -69,14 +70,48 @@ class _ProfilePageState extends State<ProfilePageScreen> {
     }
   }
 
-  Future<void> pickImage(ImageSource source, bool isPassportNumber) async {
+  Future<void> pickImageAV(ImageSource source) async {
     final pickedFile = await picker.pickImage(source: source);
 
-    setState(() {
-      if (pickedFile != null) {
-        passportPhotoImage = File(pickedFile.path);
+    if (pickedFile != null) {
+      avatarPhotoImage = File(pickedFile.path);
+      final token = await storage.read(key: 'authToken');
+      final uri =
+          Uri.parse('https://dev.adsmap.kr.ua/api/v1/users/update-avatar');
+      final request = http.MultipartRequest('POST', uri);
+      request.headers['Authorization'] = 'Bearer $token';
+      request.files
+          .add(await http.MultipartFile.fromPath('avatar', pickedFile.path));
+      final response = await request.send();
+
+      if (response.statusCode == 200) {
+        print('Image uploaded successfully');
+      } else {
+        print('Failed to upload image');
       }
-    });
+    }
+  }
+
+  Future<void> pickImagePS(ImageSource source) async {
+    final pickedFile = await picker.pickImage(source: source);
+
+    if (pickedFile != null) {
+      passportPhotoImage = File(pickedFile.path);
+      final token = await storage.read(key: 'authToken');
+      final uri = Uri.parse(
+          'https://dev.adsmap.kr.ua/api/v1/users/update-passport-photo');
+      final request = http.MultipartRequest('POST', uri);
+      request.headers['Authorization'] = 'Bearer $token';
+      request.files
+          .add(await http.MultipartFile.fromPath('avatar', pickedFile.path));
+      final response = await request.send();
+
+      if (response.statusCode == 200) {
+        print('Image uploaded successfully');
+      } else {
+        print('Failed to upload image');
+      }
+    }
   }
 
   Future<void> saveUser() async {
@@ -88,21 +123,26 @@ class _ProfilePageState extends State<ProfilePageScreen> {
       return;
     }
 
-    final uri = Uri.parse('https://dev.adsmap.kr.ua/api/auth/register');
-    final request = http.MultipartRequest('POST', uri);
+    final uri =
+        Uri.parse('http://dev.adsmap.kr.ua/api/v1/users/update').replace(
+      queryParameters: {
+        'first_name': firstNameController.text.toString(),
+        'last_name': lastNameController.text.toString(),
+        'middle_name': middleNameController.text.toString(),
+        'phone': phoneController.text.toString(),
+        'birthday': birthdayController.text.toString(),
+        'password': passwordController.text.toString(),
+        // 'email': emailController.text.toString(),
+        'passport_number': passportNumberController.text.toString(),
+        'home_address': homeAddressController.text.toString(),
+        'home_cords': '1',
+        'city_id': '1',
+      },
+    );
+    final request = http.Request('POST', uri);
     request.headers['Authorization'] = 'Bearer $token';
-    request.fields['first_name'] = firstNameController.text.toString();
-    request.fields['last_name'] = lastNameController.text.toString();
-    request.fields['middle_name'] = middleNameController.toString();
-    request.fields['phone'] = phoneController.toString();
-    // ..fields['birthday'] = birthdayController.toString();
-    request.fields['password'] = passwordController.toString();
-    ;
-
-    if (passportPhotoImage != null) {
-      request.files.add(await http.MultipartFile.fromPath(
-          'passport_photo', passportPhotoImage!.path));
-    }
+    // request.headers['Content-Type'] = 'application/json';
+    // request.body = jsonEncode(params);
 
     final response = await request.send();
 
@@ -161,13 +201,13 @@ class _ProfilePageState extends State<ProfilePageScreen> {
                     onPressed: saveUser,
                     child: const Text('Сохранить'),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                   ElevatedButton(
-                    onPressed: () => pickImage(ImageSource.gallery, false),
+                    onPressed: () => pickImageAV(ImageSource.gallery),
                     child: const Text('Выбрать аватар'),
                   ),
                   ElevatedButton(
-                    onPressed: () => pickImage(ImageSource.gallery, false),
+                    onPressed: () => pickImagePS(ImageSource.gallery),
                     child: const Text('Выбрать фото паспорта'),
                   ),
                 ],
@@ -205,6 +245,7 @@ class _ProfilePageState extends State<ProfilePageScreen> {
       ),
       readOnly: specialBehaviors.containsKey(label),
       onTap: specialBehaviors[label],
+      enabled: label != 'Email',
     );
   }
 

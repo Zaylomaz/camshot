@@ -10,6 +10,7 @@ import 'package:camshot/src/screens/faq_detail_screen.dart';
 import 'package:camshot/src/models/user.dart';
 import 'package:camshot/src/screens/main_screen.dart';
 import 'package:camshot/src/screens/map_screen.dart';
+import 'package:camshot/src/screens/register_screen.dart';
 
 class AppRoutes {
   static final pages = {
@@ -23,6 +24,7 @@ class AppRoutes {
     main: (context) => MainScreen(),
     map: (context) => MapScreen(),
     profile: (context) => ProfilePageScreen(),
+    // register: (context) => RegisterPage(),
   };
   static const String login = '/login';
   static const String camera = '/camera';

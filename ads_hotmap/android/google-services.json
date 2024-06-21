@@ -1,0 +1,72 @@
+{
+  "project_info": {
+    "project_number": "530010359092",
+    "firebase_url": "https://adsmasetrapi-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "adsmasetrapi",
+    "storage_bucket": "adsmasetrapi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:530010359092:android:1ad0a72253c1024f9b9161",
+        "android_client_info": {
+          "package_name": "com.rempc.ads_hotmap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "530010359092-15u362k151jvan0dl2e2j1bm3pem8h4f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rempc.ads_hotmap",
+            "certificate_hash": "60f739fa7418c8d8dc1945cd01256f01ff37bd8e"
+          }
+        },
+        {
+          "client_id": "530010359092-gq9283o2v5lap57k4d6i0us7siuo1blo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rempc.ads_hotmap",
+            "certificate_hash": "873d39502eda6ca21bceedff335044fe0677c659"
+          }
+        },
+        {
+          "client_id": "530010359092-gs50qgquo9lf0r0r103f51udqv3pq6u6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rempc.ads_hotmap",
+            "certificate_hash": "bc8cc3f7a3a97fda396571fd3a60606074e1a0c2"
+          }
+        },
+        {
+          "client_id": "530010359092-rhmsvmgcbs9v87rv5uuqt1ihejuqclio.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rempc.ads_hotmap",
+            "certificate_hash": "03819475abcaff52dce4b190dfbbaf3d270f28ec"
+          }
+        },
+        {
+          "client_id": "530010359092-hrmlpnetb3kdn87an8k7vjs3o29s5n7p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbJPSZ3ArDxWOjIpGufwNoPJQkdAVcJtU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "103019494525273205295",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
