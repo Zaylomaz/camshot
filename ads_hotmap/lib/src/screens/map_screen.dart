@@ -19,17 +19,14 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState() {
     super.initState();
-    Location().onLocationChanged.listen((LocationData currentLocation) {
-      mapController?.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(
-            target: LatLng(latitude, longitude),
-            zoom: 14.5,
-          ),
+    mapController?.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(latitude, longitude),
+          zoom: 14.5,
         ),
-      );
-    });
-    initializeCameraPosition();
+      ),
+    );
   }
 
   Future<void> initializeCameraPosition() async {
@@ -69,20 +66,13 @@ class _MapScreenState extends State<MapScreen> {
     return FutureBuilder(
       future: initializeCameraPosition(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return Scaffold(
-            body: GoogleMap(
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: _initialCameraPosition ??
-                  CameraPosition(target: LatLng(0, 0), zoom: 14.5),
-              markers: _markers,
-            ),
-          );
-        } else {
-          return Center(
-              child:
-                  CircularProgressIndicator()); // Show loading spinner while waiting
-        }
+        return Scaffold(
+          body: GoogleMap(
+            onMapCreated: _onMapCreated,
+            initialCameraPosition: _initialCameraPosition ??
+                CameraPosition(target: LatLng(50.56, 30.26), zoom: 14.5),
+          ),
+        );
       },
     );
   }

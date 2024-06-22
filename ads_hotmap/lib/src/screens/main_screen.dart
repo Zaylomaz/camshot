@@ -27,6 +27,11 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     _checkLocationPermission();
+    _pageController.addListener(() {
+      setState(() {
+        _selectedIndex = _pageController.page!.round();
+      });
+    });
   }
 
   void _checkLocationPermission() async {
@@ -59,7 +64,7 @@ class _MainScreenState extends State<MainScreen> {
                 Navigator.of(context).pop();
                 var status = await Permission.location.request();
                 if (status.isGranted) {
-                  _startLocationUpdates(); // Вызов логики работы с местоположением
+                  _startLocationUpdates();
                 } else {
                   // Разрешение отклонено
                   // Показываем сообщение пользователю или выполняем другую логику
@@ -109,6 +114,7 @@ class _MainScreenState extends State<MainScreen> {
       ]),
       body: PageView(
         controller: _pageController,
+        physics: _selectedIndex == 2 ? NeverScrollableScrollPhysics() : null,
         onPageChanged: (index) {
           setState(() {
             _selectedIndex = index;
